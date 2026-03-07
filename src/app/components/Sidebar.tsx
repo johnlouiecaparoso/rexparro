@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Globe, Users } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
 
 interface SidebarProps {
   activeTab: string;
@@ -69,22 +69,6 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
           <a href="mailto:alex@university.edu" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-xs">
             <Mail size={13} className="shrink-0" />
             <span>osfft@carsu.edu.ph</span>
-          </a>
-          <div className="flex items-center gap-2 text-white/80 text-xs">
-            <MapPin size={13} className="shrink-0" />
-            <span>N78 4.13, Nathan Campus</span>
-          </div>
-        </div>
-
-        {/* Links */}
-        <div className="space-y-2 mb-4">
-          <a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-xs">
-            <Users size={13} className="shrink-0" />
-            <span className="underline">Collaboration Network</span>
-          </a>
-          <a href="#" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-xs">
-            <Globe size={13} className="shrink-0" />
-            <span className="underline">Australian Rivers Institute ↗</span>
           </a>
         </div>
 
