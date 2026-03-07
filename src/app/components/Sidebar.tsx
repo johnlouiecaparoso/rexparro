@@ -19,7 +19,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         <div className="mb-4 flex justify-center">
           <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white/30">
             <img
-              src="src/image/img.jpg"
+              src="/image/img.jpg"
               alt="Profile"
               className="w-full h-full object-cover"
             />
