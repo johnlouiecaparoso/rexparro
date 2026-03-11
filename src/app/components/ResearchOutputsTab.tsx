@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { Search, ChevronDown } from "lucide-react";
+import React, { useState } from "react";
+import { Search, ChevronDown, BookOpen, ExternalLink } from "lucide-react";
 
-const GREEN_DARK = "#25671E";
-const GREEN_BRIGHT = "#48A111";
+// New modern color palette
+const TEAL_PRIMARY = "#0D9488";
+const TEAL_DARK = "#0F766E";
+const AMBER_ACCENT = "#F59E0B";
 
 interface Publication {
   id: number;
@@ -79,31 +81,30 @@ export function ResearchOutputsTab() {
       {/* Search & Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             placeholder="Search author..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded outline-none focus:border-green-500 transition-colors"
+            className="w-full pl-10 pr-4 py-3 text-sm border border-gray-200 rounded-lg outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all"
           />
         </div>
         <div className="relative">
           <button
             onClick={() => setShowFilter(!showFilter)}
-            className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-200 rounded hover:border-gray-300 transition-colors bg-white min-w-[140px] justify-between"
+            className="flex items-center gap-2 px-4 py-3 text-sm border border-gray-200 rounded-lg hover:border-teal-400 hover:bg-teal-50 transition-all bg-white min-w-[160px] justify-between"
           >
-            <span>{filter}</span>
-            <ChevronDown size={14} className="text-gray-400" />
+            <span className="text-gray-600">{filter}</span>
+            <ChevronDown size={16} className={`text-gray-400 transition-transform duration-200 ${showFilter ? 'rotate-180' : ''}`} />
           </button>
           {showFilter && (
-            <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded shadow-lg z-10 min-w-[180px]">
+            <div className="absolute right-0 top-full mt-2 bg-white border border-gray-200 rounded-lg shadow-xl z-10 min-w-[200px] overflow-hidden">
               {filterTypes.map((f) => (
                 <button
                   key={f}
                   onClick={() => { setFilter(f); setShowFilter(false); }}
-                  className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-                  style={{ color: filter === f ? GREEN_DARK : "#374151" }}
+                  className={`block w-full text-left px-4 py-3 text-sm hover:bg-teal-50 transition-colors ${filter === f ? 'bg-teal-50 text-teal-700 font-medium' : 'text-gray-600'}`}
                 >
                   {f}
                 </button>
@@ -114,62 +115,83 @@ export function ResearchOutputsTab() {
       </div>
 
       {/* Results count */}
-      <p className="text-xs text-gray-500 mb-4">
-        1–{filtered.length} of {filtered.length}
+      <p className="text-sm text-gray-500 mb-5 flex items-center gap-2">
+        <BookOpen size={14} />
+        <span>Showing <span className="font-semibold text-teal-600">{filtered.length}</span> publication{filtered.length !== 1 ? 's' : ''}</span>
       </p>
 
       {/* Publications List */}
-      <div className="space-y-0">
+      <div className="space-y-4">
         {filtered.map((pub, idx) => (
           <div
             key={pub.id}
-            className={`py-4 ${idx < filtered.length - 1 ? "border-b border-gray-100" : ""}`}
+            className={`enhanced-card p-5 hover-lift animate-fade-in-up`}
+            style={{ 
+              animationDelay: `${idx * 100}ms`,
+              opacity: 0,
+            }}
           >
             {/* Type badge */}
-            <p
-              className="text-xs uppercase tracking-widest mb-1"
-              style={{ color: GREEN_BRIGHT, fontSize: "10px", fontWeight: 600, letterSpacing: "0.08em" }}
-            >
-              {pub.type}
-            </p>
-            {/* Date */}
-            <p className="text-xs text-gray-400 mb-1">{pub.date}</p>
+            <div className="flex items-center gap-2 mb-2">
+              <span
+                className="text-xs uppercase tracking-widest px-2 py-1 rounded font-semibold"
+                style={{ 
+                  color: TEAL_PRIMARY, 
+                  backgroundColor: TEAL_PRIMARY + '15',
+                  fontSize: "10px", 
+                  fontWeight: 600, 
+                  letterSpacing: "0.08em" 
+                }}
+              >
+                {pub.type}
+              </span>
+              {/* Date */}
+              <span className="text-xs text-gray-400 flex items-center gap-1">
+                <span>•</span> {pub.date}
+              </span>
+            </div>
+            
             {/* Title */}
             <a
               href={pub.doi ? `https://doi.org/${pub.doi}` : "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm hover:underline transition-colors block mb-1"
-              style={{ color: GREEN_DARK }}
+              className="text-base font-semibold hover:underline transition-colors block mb-2 group"
+              style={{ color: TEAL_DARK }}
             >
               {pub.title}
+              <ExternalLink size={14} className="inline ml-2 opacity-0 group-hover:opacity-100 transition-opacity -mt-1" />
             </a>
+            
             {/* Journal */}
-            <p className="text-xs text-gray-500 italic mb-1">{pub.journal}</p>
+            <p className="text-sm text-gray-500 italic mb-2">{pub.journal}</p>
+            
             {/* Authors */}
-            <p className="text-xs text-gray-500 mb-1">{pub.authors}</p>
+            <p className="text-sm text-gray-600 mb-2">{pub.authors}</p>
+            
             {/* DOI */}
             {pub.doi && (
               <p className="text-xs text-gray-400">
-                DOI:{" "}
+                <span className="font-medium">DOI:</span>{" "}
                 <a
                   href={`https://doi.org/${pub.doi}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline"
-                  style={{ color: GREEN_BRIGHT }}
+                  className="hover:underline transition-colors"
+                  style={{ color: TEAL_PRIMARY }}
                 >
                   {pub.doi}
                 </a>
               </p>
             )}
+            
             {/* Identifiers */}
             {pub.identifiers && pub.identifiers.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-1">
+              <div className="flex flex-wrap gap-2 mt-3">
                 {pub.identifiers.map((id, j) => (
                   <span
                     key={j}
-                    className="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-500"
+                    className="text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-500 hover:bg-teal-50 hover:text-teal-600 transition-colors cursor-default"
                   >
                     {id}
                   </span>
@@ -182,3 +204,4 @@ export function ResearchOutputsTab() {
     </div>
   );
 }
+

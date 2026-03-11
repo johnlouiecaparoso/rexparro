@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { Search } from "lucide-react";
+import React, { useState } from "react";
+import { Search, Users, GraduationCap } from "lucide-react";
 
-const GREEN_DARK = "#25671E";
-const GREEN_BRIGHT = "#48A111";
+// New modern color palette
+const TEAL_PRIMARY = "#0D9488";
+const TEAL_DARK = "#0F766E";
+const AMBER_ACCENT = "#F59E0B";
 
 const teachingItems = [
   {
@@ -95,70 +97,115 @@ export function TeachingTab() {
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
-        <h2 className="text-sm text-gray-700">Teaching & Supervision</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+        <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+          <GraduationCap size={20} style={{ color: TEAL_PRIMARY }} />
+          Teaching & Supervision
+        </h2>
         <div className="relative sm:ml-auto">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Search author..."
+            placeholder="Search..."
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            className="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded outline-none focus:border-green-500 w-full sm:w-56 transition-colors"
+            className="pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 w-full sm:w-56 transition-all"
           />
         </div>
       </div>
 
       {/* Count */}
-      <p className="text-xs text-gray-500 mb-4">
-        {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
+      <p className="text-sm text-gray-500 mb-5 flex items-center gap-2">
+        <Users size={14} />
+        <span>Showing <span className="font-semibold text-teal-600">{(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)}</span> of {filtered.length}</span>
       </p>
 
       {/* List */}
-      <div className="space-y-0">
+      <div className="space-y-4">
         {paginated.map((item, idx) => (
           <div
             key={item.id}
-            className={`py-4 ${idx < paginated.length - 1 ? "border-b border-gray-100" : ""}`}
+            className="enhanced-card p-5 hover-lift animate-fade-in-up"
+            style={{ 
+              animationDelay: `${idx * 100}ms`,
+              opacity: 0,
+            }}
           >
-            <p
-              className="text-xs uppercase tracking-widest mb-1"
-              style={{ color: GREEN_BRIGHT, fontSize: "10px", fontWeight: 600 }}
-            >
-              {item.type}
-            </p>
-            <p className="text-xs text-gray-400 mb-1">{item.date}</p>
+            <div className="flex items-start justify-between mb-2 flex-wrap gap-2">
+              <span
+                className="text-xs uppercase tracking-widest px-3 py-1 rounded-full font-semibold"
+                style={{ 
+                  color: item.type.includes('CURRENT') ? AMBER_ACCENT : TEAL_PRIMARY, 
+                  backgroundColor: item.type.includes('CURRENT') ? AMBER_ACCENT + '12' : TEAL_PRIMARY + '12',
+                  fontSize: "10px", 
+                  fontWeight: 600 
+                }}
+              >
+                {item.type}
+              </span>
+              <span className="text-xs text-gray-400">{item.date}</span>
+            </div>
+            
             <a
               href="#"
-              className="text-sm block mb-1 hover:underline transition-colors"
-              style={{ color: GREEN_DARK, fontWeight: 500 }}
+              className="text-base font-semibold block mb-2 hover:underline transition-colors group"
+              style={{ color: TEAL_DARK }}
             >
               {item.title}
             </a>
-            <p className="text-xs text-gray-500">{item.supervisor}</p>
+            
+            <p className="text-sm flex items-center gap-2">
+              <span 
+                className="text-xs px-2 py-0.5 rounded"
+                style={{ 
+                  backgroundColor: item.supervisor.includes('Principal') ? AMBER_ACCENT + '15' : TEAL_PRIMARY + '15',
+                  color: item.supervisor.includes('Principal') ? TEAL_DARK : TEAL_DARK 
+                }}
+              >
+                {item.supervisor}
+              </span>
+            </p>
           </div>
         ))}
       </div>
 
-      {/* Pagination */}
+      {/* Pagination - Enhanced */}
       {totalPages > 1 && (
-        <div className="flex items-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <button
+            onClick={() => setPage(Math.max(1, page - 1))}
+            disabled={page === 1}
+            className="px-3 py-2 text-sm rounded-lg border border-gray-200 hover:border-teal-400 hover:bg-teal-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          >
+            ← Prev
+          </button>
+          
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
             <button
               key={p}
               onClick={() => setPage(p)}
-              className="w-8 h-8 text-sm rounded transition-colors"
+              className="w-10 h-10 text-sm rounded-lg transition-all btn-hover-scale"
               style={{
-                backgroundColor: page === p ? GREEN_DARK : "transparent",
-                color: page === p ? "white" : "#374151",
-                border: `1px solid ${page === p ? GREEN_DARK : "#e5e7eb"}`,
+                backgroundColor: page === p ? TEAL_PRIMARY : 'transparent',
+                color: page === p ? 'white' : '#374151',
+                border: `1px solid ${page === p ? TEAL_PRIMARY : '#e5e7eb'}`,
+                boxShadow: page === p ? '0 2px 8px rgba(13, 148, 136, 0.3)' : 'none',
               }}
             >
               {p}
             </button>
           ))}
+          
+          <button
+            onClick={() => setPage(Math.min(totalPages, page + 1))}
+            disabled={page === totalPages}
+            className="px-3 py-2 text-sm rounded-lg border border-gray-200 hover:border-teal-400 hover:bg-teal-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+          >
+            Next →
+          </button>
         </div>
       )}
     </div>
   );
 }
+
