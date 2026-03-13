@@ -5,9 +5,9 @@ import { ResearchOutputsTab } from "./components/ResearchOutputsTab";
 import { FundedResearchTab } from "./components/FundedResearchTab";
 import { TeachingTab } from "./components/TeachingTab";
 
-// New modern color palette
-const TEAL_PRIMARY = "#0D9488";
-const TEAL_DARK = "#0F766E";
+// Updated green-forward palette
+const TEAL_PRIMARY = "#16A34A";
+const TEAL_DARK = "#166534";
 const AMBER_ACCENT = "#F59E0B";
 
 type Tab = "About" | "Research Outputs" | "Funded Research" | "Teaching & Supervision";
@@ -79,7 +79,7 @@ export default function App() {
                 />
                 {/* Hover effect */}
                 <span 
-                  className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-400/50 transition-transform duration-300 origin-left"
+                  className="absolute bottom-0 left-0 w-full h-0.5 bg-green-400/50 transition-transform duration-300 origin-left"
                   style={{ transform: 'scaleX(0)' }}
                 />
               </button>

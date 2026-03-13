@@ -1,10 +1,10 @@
 import React from "react";
 import { Phone, Mail } from "lucide-react";
 
-// New modern color palette
-const TEAL_PRIMARY = "#0D9488";
-const TEAL_DARK = "#0F766E";
-const TEAL_LIGHT = "#14B8A6";
+// Enhanced green palette
+const TEAL_PRIMARY = "#16A34A";
+const TEAL_DARK = "#166534";
+const TEAL_LIGHT = "#22C55E";
 
 interface SidebarProps {
   activeTab: string;
@@ -16,15 +16,15 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
 
   return (
     <aside
-      className="w-full md:w-72 shrink-0 flex flex-col h-full"
+      className="w-full md:w-80 shrink-0 flex flex-col h-full"
       style={{ 
         background: `linear-gradient(180deg, ${TEAL_DARK} 0%, ${TEAL_PRIMARY} 50%, ${TEAL_LIGHT} 100%)`
       }}
     >
       {/* Profile Section */}
-      <div className="p-6 text-white">
+      <div className="p-5 text-white">
         {/* Avatar with glow effect */}
-        <div className="mb-5 flex justify-center">
+        <div className="mb-4 flex justify-center">
           <div className="relative">
             <div 
               className="w-28 h-28 rounded-full overflow-hidden border-3 border-white/30 shadow-lg"
@@ -56,7 +56,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
           href="https://orcid.org/0000-0002-7962-278X"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 text-white/80 hover:text-white transition-all duration-300 mb-5 hover:scale-105"
+          className="flex items-center justify-center gap-2 text-white/80 hover:text-white transition-all duration-300 mb-4 hover:scale-105"
           style={{ fontSize: "11px" }}
         >
           <img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" alt="ORCID" className="w-4 h-4" />
@@ -64,11 +64,11 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         </a>
 
         {/* Divider */}
-        <hr className="border-white/20 mb-5" />
+        <hr className="border-white/20 mb-4" />
 
         {/* Title & Dept - Enhanced */}
-        <div className="mb-5">
-          <div className="flex items-start gap-3 mb-3 p-3 rounded-lg bg-white/10 backdrop-blur-sm">
+        <div className="mb-4">
+          <div className="flex items-start gap-3 mb-2 p-2.5 rounded-lg bg-white/10 backdrop-blur-sm">
             <div className="w-2.5 h-2.5 rounded-full mt-1.5 shrink-0 animate-pulse" style={{ backgroundColor: "#F59E0B" }}></div>
             <div>
               <p className="text-white text-sm font-semibold">Instructor I</p>
@@ -78,7 +78,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
         </div>
 
         {/* Contact Info - Enhanced */}
-        <div className="space-y-3 mb-5">
+        <div className="space-y-2.5 mb-4">
           <a 
             href="tel:+639561881044" 
             className="flex items-center gap-3 text-white/80 hover:text-white transition-all duration-300 hover:translate-x-1 text-sm p-2 rounded-lg hover:bg-white/10"
@@ -98,12 +98,12 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
       </div>
 
       {/* Navigation Tabs - Enhanced */}
-      <nav className="mt-2 flex-1 pb-4">
+      <nav className="mt-1 flex-1 pb-2">
         {tabs.map((tab, index) => (
           <button
             key={tab}
             onClick={() => onTabChange(tab)}
-            className={`w-full text-left px-6 py-4 text-sm transition-all duration-300 border-l-4 group relative overflow-hidden ${
+            className={`w-full text-left px-5 py-3 text-sm transition-all duration-300 border-l-4 group relative overflow-hidden ${
               activeTab === tab
                 ? "border-white bg-white/20 text-white font-semibold"
                 : "border-transparent text-white/70 hover:text-white hover:bg-white/10"
